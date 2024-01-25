@@ -3,13 +3,6 @@ require("dotenv").config();
 const express = require('express')
 const db = require("./db");
 
-//-Way to create a user
-//-Way to create an organisation
-//-Way to add an user to the organisation
-//-Way to update and delete the user
-//Way to update/delete an organisation. (Validation: Cannot delete an organisation if there are user attached to it)
-//Way to view the details of the user along with the organisation details the user belongs to.////////////
-
 
 // -Endpoint to create a user with the mentioned details (Such as name, email, age, phone number(unique number)) and store it in a table using postgres.
 // -Endpoint to update the user details (name, age and email).
@@ -23,7 +16,7 @@ const app = express();
 
 
 app.use(express.json());
-
+// to view all the organisation names
 app.get("/api/getallOrgs", async (req, res) => {
 
         try{
@@ -162,7 +155,7 @@ app.get('/api/ViewUsers/:userId/details', async (req, res) => {
     try {
       const orgId = req.params.orgId;
       
-      // Check if the organization exists (you may want to add additional validation)
+      // Check if the organization exists
       const organizationExists = await db.query('SELECT 1 FROM organization WHERE org_id = $1', [req.params.orgId]);
       if (organizationExists.rows.length === 0) {
         return res.status(404).json({ error: 'Organization not found' });
