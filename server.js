@@ -21,7 +21,7 @@ app.get("/api/getallOrgs", async (req, res) => {
 
         try{
             console.log("Results : ");
-             const results= await db.query('select * from  organization');
+             const results= await db.query('select org_id,name from  organization');
             console.log(results);
     
 
@@ -29,7 +29,7 @@ app.get("/api/getallOrgs", async (req, res) => {
             status:"succes",
             No_of_rows: results.rows.length,
             data:{
-                organisations: results.rows[0],
+                organisations: results.rows,
                 },
             });
         }
@@ -161,7 +161,7 @@ app.get('/api/ViewUsers/:userId/details', async (req, res) => {
         return res.status(404).json({ error: 'Organization not found' });
       }
   
-      const result = await db.query('SELECT * FROM "user" WHERE org_id = $1', [req.params.orgId]);
+      const result = await db.query('SELECT user_id, name FROM "user" WHERE org_id = $1', [req.params.orgId]);
       res.json(result.rows);
 
     } catch (error) {
